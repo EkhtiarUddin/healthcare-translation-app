@@ -14,3 +14,7 @@ frontend/.env
 
 # Misc
 .DS_Store
+
+#vercel
+/backend/.vercel
+/frontend/.vercel
