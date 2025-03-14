@@ -15,6 +15,7 @@ interface Language {
 const LanguageSelector = ({ label, value, onChange, disabled }: LanguageSelectorProps) => {
   const languages: Language[] = [
     { code: 'en-US', name: 'English (US)' },
+    { code: 'bn-BN', name: 'Bangladesh (BD)' },
     { code: 'es-ES', name: 'Spanish (Spain)' },
     { code: 'fr-FR', name: 'French (France)' },
     { code: 'de-DE', name: 'German (Germany)' },
