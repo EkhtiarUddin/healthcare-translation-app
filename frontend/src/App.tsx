@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import LanguageSelector from './components/LanguageSelector';
 import TranscriptDisplay from './components/TranscriptDisplay';
 import RecordButton from './components/RecordButton';
 import SpeakButton from './components/SpeakButton';
-import SubmitButton from './components/SubmitButton'
+import SubmitButton from './components/SubmitButton';
 import './App.css';
 
 interface SpeechRecognitionEvent extends Event {
@@ -40,11 +40,13 @@ function App() {
   const [targetLanguage, setTargetLanguage] = useState('es-ES');
   const [error, setError] = useState('');
   const [isTranslating, setIsTranslating] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false); // New state for speech synthesis
+
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const API_URL = process.env.REACT_APP_API_URL;
+
   const handleOriginalTextChange = (text: string) => {
     setOriginalText(text);
-    translateText(text);
   };
 
   const handleSubmit = () => {
@@ -82,7 +84,7 @@ function App() {
         };
       }
     } else {
-      setError('Speech recognition not supported in this browser');
+      setError('Speech recognition not supported in this browser.');
     }
 
     return () => {
@@ -117,6 +119,11 @@ function App() {
       const sourceLangCode = sourceLanguage.split('-')[0];
       const targetLangCode = targetLanguage.split('-')[0];
 
+      if (!API_URL) {
+        setError('API URL is not defined.');
+        return;
+      }
+
       const response = await axios.post(
         `${API_URL}/translate`,
         {
@@ -143,9 +150,18 @@ function App() {
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = language;
+      utterance.onerror = (event) => {
+        console.error('Speech synthesis error:', event);
+        setError('Text-to-speech failed.');
+        setIsSpeaking(false);
+      };
+      utterance.onend = () => {
+        setIsSpeaking(false);
+      };
+      setIsSpeaking(true);
       window.speechSynthesis.speak(utterance);
     } else {
-      setError('Text-to-speech not supported in this browser');
+      setError('Text-to-speech not supported in this browser.');
     }
   };
 
@@ -184,8 +200,8 @@ function App() {
             text={originalText}
             isLoading={isListening}
             loadingText="Listening..."
-            isEditable={true} // Make this field editable
-            onTextChange={handleOriginalTextChange} // Handle text changes
+            isEditable={true}
+            onTextChange={handleOriginalTextChange}
           />
           <TranscriptDisplay
             title="Translated Text"
@@ -207,7 +223,7 @@ function App() {
           />
           <SpeakButton
             onClick={() => speakText(translatedText, targetLanguage)}
-            disabled={!translatedText || isTranslating}
+            disabled={!translatedText || isTranslating || isSpeaking}
           />
         </div>
       </main>
