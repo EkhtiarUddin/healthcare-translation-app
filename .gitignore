@@ -10,7 +10,7 @@ backend/.Python
 backend/.env
 
 # Environment variables
-.env
+backend/.env
 .env.local
 .env.development.local
 
