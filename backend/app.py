@@ -94,7 +94,7 @@ def translate():
 
         # Using the OpenAI API
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4",
             messages=[
                 {
                     "role": "system",
@@ -183,7 +183,7 @@ def handle_translate(data):
 
         prompt = MEDICAL_PROMPT if is_medical else "Translate the following text:"
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4",
             messages=[
                 {
                     "role": "system",
