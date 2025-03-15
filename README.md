@@ -41,3 +41,5 @@ The backend will run at http://localhost:5000
     npm start
 
 The frontend will open at http://localhost:3000
+
+vercel url: https://healthcare-translation-9b02dptho-ekhtiar-uddins-projects.vercel.app/
