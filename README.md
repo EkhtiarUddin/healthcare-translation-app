@@ -19,23 +19,25 @@ Before starting, ensure you have the following installed on your system:
 
 ### Backend Setup
 1. Navigate to the Backend Folder
-cd backend
+    cd backend
 2. Install the required Python packages:
-pip install flask flask-cors openai python-dotenv gunicorn
+    pip install flask flask-cors openai python-dotenv gunicorn
 3. Set Up Environment Variables: Create a .env file in the backend folder
-OPENAI_API_KEY=your_openai_api_key_here
-PORT=5000
+    OPENAI_API_KEY=your_openai_api_key_here
+    PORT=5000
 4. Run the Backend Server
-python app.py or flask run
+    python app.py or flask run
+
 The backend will run at http://localhost:5000
 
 ### Frontend Setup
 1. Navigate to the Frontend Folder
-cd frontend
+    cd frontend
 2. Install Frontend Dependencies from package.json
-npm install or yarn install
+    npm install or yarn install
 3. Set Up Environment Variables: Create a .env file in the frontend folder
-REACT_APP_API_URL=http://localhost:5000
+    REACT_APP_API_URL=http://localhost:5000
 4. Run the React development server:
-npm start
+    npm start
+    
 The frontend will open at http://localhost:3000
